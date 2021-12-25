@@ -32,6 +32,18 @@ public class WindowRessource {
 		}
 		return db.getListWindows();
 	}
-
+	
+	
+	@GetMapping("/id/{id}")
+	public Window getWindowID(@PathVariable int id) {
+		
+		int index=-1;
+		for (int i=0;i<db.getListWindows().size();i++) {
+			if(db.getListWindows().get(i).getId()==id) {
+				index=i;
+			}
+		}
+		return db.getListWindows().get(index);
+	}
 
 }
