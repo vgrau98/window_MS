@@ -18,6 +18,11 @@ public class WindowRessource {
 	
 	public DataBase db = new DataBase();
 	
+	@PostMapping(path="/init/{n}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Window> initDataBase(@PathVariable int n){
+		db.initDataBase(n);
+		return db.getListWindows();
+	}
 	
 	
 	@GetMapping("/list")
