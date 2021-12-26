@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,6 +45,22 @@ public class WindowRessource {
 			}
 		}
 		return db.getListWindows().get(index);
+	}
+	
+	@GetMapping("/room/{room}")
+	public Window getWindowRoom(@PathVariable int room) {
+		int index =1;
+		for(int i=0;i<db.getListWindows().size();i++) {
+			if(db.getListWindows().get(i).getRoom()==room) {
+				index=i;
+			}
+		}
+		return db.getListWindows().get(index);
+	}
+	
+	@PutMapping("/setWindowID/{id}/{state}")
+	public void setStateID(@PathVariable boolean state,@PathVariable int id) {
+		getWindowID(id).setState(state);
 	}
 
 }
