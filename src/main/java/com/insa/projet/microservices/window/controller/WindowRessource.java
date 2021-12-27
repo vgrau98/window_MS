@@ -58,9 +58,28 @@ public class WindowRessource {
 		return db.getListWindows().get(index);
 	}
 	
-	@PutMapping("/setWindowID/{id}/{state}")
-	public void setStateID(@PathVariable boolean state,@PathVariable int id) {
-		getWindowID(id).setState(state);
+	@PostMapping(path = "addStateID/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void addStateID(@PathVariable("id") int id, @RequestBody WindowState state) {
+		int index = -1;
+		for (int i = 0; i < db.getListWindows().size(); i++) {
+			if (db.getListWindows().get(i).getId() == id) {
+				index = i;
+			}
+		}
+
+		db.getListWindows().get(index).addState(state);
+	}
+	
+	@PostMapping(path = "addStateRoom/{room}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void addStateRoom(@PathVariable("room") int room, @RequestBody WindowState state) {
+		int index = -1;
+		for (int i = 0; i < db.getListWindows().size(); i++) {
+			if (db.getListWindows().get(i).getRoom() == room) {
+				index = i;
+			}
+		}
+
+		db.getListWindows().get(index).addState(state);
 	}
 
 }
