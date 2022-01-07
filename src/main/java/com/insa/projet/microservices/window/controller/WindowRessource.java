@@ -35,6 +35,14 @@ public class WindowRessource {
 	}
 	
 	
+	@PostMapping(path="/addWindow", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public void addWindow(@RequestBody Window window) {
+		
+		db.getListWindows().add(window);
+		
+	}
+	
+	
 	@GetMapping("/id/{id}")
 	public Window getWindowID(@PathVariable int id) {
 		
@@ -81,5 +89,18 @@ public class WindowRessource {
 
 		db.getListWindows().get(index).addState(state);
 	}
+	
+	@GetMapping("/WindowInID/{id}")
+	public boolean windowInDBbyID(@PathVariable ("id") int ID) {
+		
+		boolean isCreated=false;
+		for(Window w : db.getListWindows()) {
+			if(w.getId()==ID) {
+				isCreated=true;
+			}
+		}
 
+		
+		return isCreated;
+	}
 }
