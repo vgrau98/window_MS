@@ -1,5 +1,6 @@
 package com.insa.projet.microservices.window.controller;
 
+
 import com.insa.projet.microservices.window.model.*;
 
 import java.util.List;
@@ -32,6 +33,19 @@ public class WindowRessource {
 			System.out.println(db.getListWindows().get(i));
 		}
 		return db.getListWindows();
+	}
+	
+	@GetMapping("/isMeasured/{id}/{timestamp}")
+	public boolean alreadyMeasured(@PathVariable ("id") int id,@PathVariable ("timestamp") long timestamp) {
+		
+		boolean measured=false;
+		Window window = getWindowID(id);
+		for(WindowState s : window.getStates()) {
+			if(s.getTimestamp()==timestamp) {
+				measured=true;
+			}
+		}
+		return measured;
 	}
 	
 	
