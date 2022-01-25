@@ -14,19 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+/**
+ * 
+ * @author grau
+ * Expose resources for managing a database of temperature sensors each with an ID, a room and a list of values representing the history. 
+ */
 @RestController
 public class WindowRessource {
 	
 	public DataBase db = new DataBase();
 	
-	@PostMapping(path="/init/{n}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<Window> initDataBase(@PathVariable int n){
-		db.initDataBase(n);
-		return db.getListWindows();
-	}
 	
-	
+	/**
+	 * 
+	 * @return, the list of window actuators
+	 */
 	@GetMapping("/list")
 	public List<Window> getListWindows(){
 		for(int i=0;i<db.getListWindows().size();i++) {
@@ -35,6 +37,12 @@ public class WindowRessource {
 		return db.getListWindows();
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @param timestamp
+	 * @return true if an action with a specific timestamp has already been posted
+	 */
 	@GetMapping("/isMeasured/{id}/{timestamp}")
 	public boolean alreadyMeasured(@PathVariable ("id") int id,@PathVariable ("timestamp") long timestamp) {
 		
@@ -48,7 +56,10 @@ public class WindowRessource {
 		return measured;
 	}
 	
-	
+	/**
+	 * 
+	 * @param window, see Window class
+	 */
 	@PostMapping(path="/addWindow", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public void addWindow(@RequestBody Window window) {
 		
@@ -56,19 +67,33 @@ public class WindowRessource {
 		
 	}
 	
-	
+	/**
+	 * 
+	 * @param id
+	 * @return, a window according to its ID or null if the id does not exist
+	 */
 	@GetMapping("/id/{id}")
 	public Window getWindowID(@PathVariable int id) {
 		
 		int index=-1;
+		Window window = null;
 		for (int i=0;i<db.getListWindows().size();i++) {
 			if(db.getListWindows().get(i).getId()==id) {
 				index=i;
 			}
 		}
-		return db.getListWindows().get(index);
+		
+		if(index!=-1) {
+			window=db.getListWindows().get(index);
+		}
+		return window;
 	}
 	
+	/**
+	 * 
+	 * @param room
+	 * @return, a window actuator according to a specific room
+	 */
 	@GetMapping("/room/{room}")
 	public Window getWindowRoom(@PathVariable int room) {
 		int index =1;
@@ -80,6 +105,11 @@ public class WindowRessource {
 		return db.getListWindows().get(index);
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @param state
+	 */
 	@PostMapping(path = "addStateID/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void addStateID(@PathVariable("id") int id, @RequestBody WindowState state) {
 		int index = -1;
@@ -92,6 +122,11 @@ public class WindowRessource {
 		db.getListWindows().get(index).addState(state);
 	}
 	
+	/**
+	 * 
+	 * @param room
+	 * @param state
+	 */
 	@PostMapping(path = "addStateRoom/{room}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void addStateRoom(@PathVariable("room") int room, @RequestBody WindowState state) {
 		int index = -1;
@@ -104,6 +139,11 @@ public class WindowRessource {
 		db.getListWindows().get(index).addState(state);
 	}
 	
+	/**
+	 * 
+	 * @param ID
+	 * @return true if a window actuator with a the specified ID already exists
+	 */
 	@GetMapping("/WindowInID/{id}")
 	public boolean windowInDBbyID(@PathVariable ("id") int ID) {
 		

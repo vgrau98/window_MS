@@ -3,6 +3,12 @@ package com.insa.projet.microservices.window.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author grau
+ * This class allows to implement a window actuators
+ * 
+ */
 public class Window {
 
 	private int id;
@@ -13,6 +19,11 @@ public class Window {
 		return id;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @param room
+	 */
 	public Window(int id, int room) {
 		this.id = id;
 		this.room = room;

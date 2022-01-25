@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+/**
+ * 
+ * @author grau
+ * This class allows to implement a database of window actuators
+ */
 public class DataBase {
 
 	private List<Window> listWindows;
@@ -21,10 +25,4 @@ public class DataBase {
 		this.listWindows = listWindows;
 	}
 	
-	public void initDataBase(int n) {
-		this.listWindows.clear();
-		for(int i=0;i<n;i++) {
-			this.listWindows.add(new Window(i, i+100));
-		}
-	}
 }
